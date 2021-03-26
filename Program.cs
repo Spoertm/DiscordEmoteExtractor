@@ -19,11 +19,6 @@ namespace DiscordEmoteExtractor
 
 		public static async Task Main()
 		{
-			if (Directory.Exists(emoteFolderPath))
-				Directory.Delete(emoteFolderPath, recursive: true);
-
-			Directory.CreateDirectory(emoteFolderPath);
-
 			Stopwatch sw = Stopwatch.StartNew();
 
 			Console.Write("Reading text from file...");
@@ -58,6 +53,11 @@ namespace DiscordEmoteExtractor
 
 			sw.Restart();
 			Console.WriteLine("Saving emotes...");
+
+			if (Directory.Exists(emoteFolderPath))
+				Directory.Delete(emoteFolderPath, recursive: true);
+
+			Directory.CreateDirectory(emoteFolderPath);
 
 			await SaveAllEmotes(emoteList);
 			WriteError($"Done. ({sw.ElapsedMilliseconds}ms)", ConsoleColor.DarkGreen);
