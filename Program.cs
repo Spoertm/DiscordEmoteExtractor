@@ -19,6 +19,18 @@ namespace DiscordEmoteExtractor
 
 		public static async Task Main()
 		{
+			try
+			{
+				await RunExtractionProcedure();
+			}
+			catch (Exception ex)
+			{
+				WriteError($"Failed to extract emotes.\nError: {ex.Message ?? ex.ToString()}", ConsoleColor.DarkRed);
+			}
+		}
+
+		private static async Task RunExtractionProcedure()
+		{
 			Stopwatch sw = Stopwatch.StartNew();
 
 			Console.Write("Reading text from file...");
