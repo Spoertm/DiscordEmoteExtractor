@@ -30,6 +30,12 @@ namespace DiscordEmoteExtractor
 
 			Console.WriteLine($"Finished in {sw.ElapsedMilliseconds}ms.\n");
 
+			if (string.IsNullOrWhiteSpace(content))
+			{
+				Console.WriteLine("File is empty.");
+				Environment.Exit(0);
+			}
+
 			sw.Restart();
 			Console.WriteLine("Matching with Regex...");
 
