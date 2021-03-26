@@ -26,6 +26,9 @@ namespace DiscordEmoteExtractor
 			catch (Exception ex)
 			{
 				WriteError($"Failed to extract emotes.\nError: {ex.Message ?? ex.ToString()}", ConsoleColor.DarkRed);
+				Console.WriteLine("\nPress any key to exit...");
+				Console.ReadKey();
+				Environment.Exit(0);
 			}
 		}
 
