@@ -10,7 +10,8 @@ namespace DiscordEmoteExtractor
 {
 	public class Program
 	{
-		private static readonly string emoteTextPath = Path.Combine(AppContext.BaseDirectory, "Emote text.txt");
+		private const string emoteFileName = "Emote text.txt";
+		private static readonly string emoteTextPath = Path.Combine(AppContext.BaseDirectory, emoteFileName);
 		private static readonly string emoteFolderPath = Path.Combine(AppContext.BaseDirectory, "Emotes");
 		private static readonly HttpClient client = new();
 		private static int counter = 0;
@@ -34,7 +35,7 @@ namespace DiscordEmoteExtractor
 		{
 			if (!File.Exists(emoteTextPath))
 			{
-				WriteError("No emote text file found.\nFile \"Emote text.txt\" was created for you. Please paste the content in it and run the program again.");
+				WriteError($"No emote text file found.\nFile \"{emoteFileName}\" was created for you. Please paste the content in it and run the program again.");
 				File.Create(emoteTextPath);
 				WaitForKeyBeforeExit();
 			}
@@ -45,11 +46,11 @@ namespace DiscordEmoteExtractor
 
 			string content = File.ReadAllText(emoteTextPath);
 
-			Console.Write($"Done. ({sw.ElapsedMilliseconds}ms)\n\n");
+			Console.Write($"Done ({sw.ElapsedMilliseconds}ms)\n\n");
 
 			if (string.IsNullOrWhiteSpace(content))
 			{
-				WriteError("File is empty.");
+				WriteError($"File is empty. Please paste the content into the file \"{emoteFileName}\".");
 				WaitForKeyBeforeExit();
 			}
 
@@ -59,7 +60,7 @@ namespace DiscordEmoteExtractor
 			MatchCollection emoteNames = emoteNameRegex.Matches(content);
 			MatchCollection emoteUrls = emoteUrlRegex.Matches(content);
 
-			Console.Write($"Done. ({sw.ElapsedMilliseconds}ms)\n\n");
+			Console.Write($"Done ({sw.ElapsedMilliseconds}ms)\n\n");
 
 			if (emoteNames.Count == 0)
 			{
@@ -80,7 +81,7 @@ namespace DiscordEmoteExtractor
 			Directory.CreateDirectory(emoteFolderPath);
 
 			await SaveAllEmotes(emoteList);
-			WriteError($"Done. ({sw.ElapsedMilliseconds}ms)", ConsoleColor.DarkGreen);
+			WriteError($"Done ({sw.ElapsedMilliseconds}ms)", ConsoleColor.DarkGreen);
 			sw.Stop();
 
 			client.Dispose();
