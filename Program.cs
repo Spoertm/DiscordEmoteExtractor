@@ -26,9 +26,7 @@ namespace DiscordEmoteExtractor
 			catch (Exception ex)
 			{
 				WriteError($"Failed to extract emotes.\nError: {ex.Message ?? ex.ToString()}", ConsoleColor.DarkRed);
-				Console.WriteLine("\nPress any key to exit...");
-				Console.ReadKey();
-				Environment.Exit(0);
+				WaitForKeyBeforeExit();
 			}
 		}
 
@@ -45,9 +43,7 @@ namespace DiscordEmoteExtractor
 			if (string.IsNullOrWhiteSpace(content))
 			{
 				WriteError("File is empty.");
-				Console.WriteLine("\nPress any key to exit...");
-				Console.ReadKey();
-				Environment.Exit(0);
+				WaitForKeyBeforeExit();
 			}
 
 			sw.Restart();
@@ -61,9 +57,7 @@ namespace DiscordEmoteExtractor
 			if (emoteNames.Count == 0)
 			{
 				WriteError("No emotes found.");
-				Console.WriteLine("\nPress any key to exit...");
-				Console.ReadKey();
-				Environment.Exit(0);
+				WaitForKeyBeforeExit();
 			}
 
 			List<Emote> emoteList = new();
@@ -83,8 +77,14 @@ namespace DiscordEmoteExtractor
 			sw.Stop();
 
 			client.Dispose();
+			WaitForKeyBeforeExit();
+		}
+
+		private static void WaitForKeyBeforeExit()
+		{
 			Console.WriteLine("\nPress any key to exit...");
 			Console.ReadKey();
+			Environment.Exit(0);
 		}
 
 		private static void WriteError(string text, ConsoleColor color = ConsoleColor.Blue)
