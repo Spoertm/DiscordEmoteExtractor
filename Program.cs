@@ -62,7 +62,7 @@ namespace DiscordEmoteExtractor
 
 			Console.Write($"Done ({sw.ElapsedMilliseconds}ms)\n\n");
 
-			if (emoteNames.Count == 0)
+			if (emoteNames.Count == 0 || emoteUrls.Count == 0)
 			{
 				WriteError("No emotes found.");
 				WaitForKeyBeforeExit();
