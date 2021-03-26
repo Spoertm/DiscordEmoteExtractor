@@ -32,6 +32,13 @@ namespace DiscordEmoteExtractor
 
 		private static async Task RunExtractionProcedure()
 		{
+			if (!File.Exists(emoteTextPath))
+			{
+				WriteError("No emote text file found. File \"Emote text.txt\" created for you. Please paste the content in it and run the program again.");
+				File.Create(emoteTextPath);
+				WaitForKeyBeforeExit();
+			}
+
 			Stopwatch sw = Stopwatch.StartNew();
 
 			Console.Write("Reading text from file...");
