@@ -44,6 +44,12 @@ namespace DiscordEmoteExtractor
 
 			Console.WriteLine($"Finished in {sw.ElapsedMilliseconds}ms.\n");
 
+			if (emoteNames.Count == 0)
+			{
+				Console.WriteLine("No emotes found.");
+				Environment.Exit(0);
+			}
+
 			List<Emote> emoteList = new();
 			for (int i = 0; i < emoteNames.Count; i++)
 				emoteList.Add(new(emoteNames[i].Value.Replace(":", string.Empty), emoteUrls[i].Value));
