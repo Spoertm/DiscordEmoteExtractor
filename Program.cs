@@ -19,7 +19,9 @@ namespace DiscordEmoteExtractor
 
 		public static async Task Main()
 		{
-			Directory.Delete(emoteFolderPath, recursive: true);
+			if (Directory.Exists(emoteFolderPath))
+				Directory.Delete(emoteFolderPath, recursive: true);
+
 			Directory.CreateDirectory(emoteFolderPath);
 
 			Stopwatch sw = Stopwatch.StartNew();
