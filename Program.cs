@@ -34,7 +34,7 @@ namespace DiscordEmoteExtractor
 		{
 			if (!File.Exists(emoteTextPath))
 			{
-				WriteError("No emote text file found. File \"Emote text.txt\" created for you. Please paste the content in it and run the program again.");
+				WriteError("No emote text file found.\nFile \"Emote text.txt\" was created for you. Please paste the content in it and run the program again.");
 				File.Create(emoteTextPath);
 				WaitForKeyBeforeExit();
 			}
