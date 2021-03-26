@@ -32,7 +32,7 @@ namespace DiscordEmoteExtractor
 
 			if (string.IsNullOrWhiteSpace(content))
 			{
-				Console.WriteLine("File is empty.");
+				WriteError("File is empty.");
 				Environment.Exit(0);
 			}
 
@@ -46,7 +46,7 @@ namespace DiscordEmoteExtractor
 
 			if (emoteNames.Count == 0)
 			{
-				Console.WriteLine("No emotes found.");
+				WriteError("No emotes found.");
 				Environment.Exit(0);
 			}
 
@@ -55,13 +55,20 @@ namespace DiscordEmoteExtractor
 				emoteList.Add(new(emoteNames[i].Value.Replace(":", string.Empty), emoteUrls[i].Value));
 
 			sw.Restart();
-			Console.Write("Saving emotes...");
+			Console.WriteLine("Saving emotes...");
 
 			await SaveAllEmotes(emoteList);
-			Console.Write($"Done. ({sw.ElapsedMilliseconds}ms)\n");
+			WriteError($"Done. ({sw.ElapsedMilliseconds}ms)", ConsoleColor.DarkGreen);
 			sw.Stop();
 
 			client.Dispose();
+		}
+
+		public static void WriteError(string text, ConsoleColor color = ConsoleColor.Blue)
+		{
+			Console.ForegroundColor = color;
+			Console.WriteLine(text);
+			Console.ResetColor();
 		}
 
 		public static async Task SaveAllEmotes(List<Emote> emoteList)
