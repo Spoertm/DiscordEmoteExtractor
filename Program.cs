@@ -30,6 +30,8 @@ namespace DiscordEmoteExtractor
 			if (string.IsNullOrWhiteSpace(content))
 			{
 				WriteError("File is empty.");
+				Console.WriteLine("\nPress any key to exit...");
+				Console.ReadKey();
 				Environment.Exit(0);
 			}
 
@@ -44,6 +46,8 @@ namespace DiscordEmoteExtractor
 			if (emoteNames.Count == 0)
 			{
 				WriteError("No emotes found.");
+				Console.WriteLine("\nPress any key to exit...");
+				Console.ReadKey();
 				Environment.Exit(0);
 			}
 
@@ -64,6 +68,8 @@ namespace DiscordEmoteExtractor
 			sw.Stop();
 
 			client.Dispose();
+			Console.WriteLine("\nPress any key to exit...");
+			Console.ReadKey();
 		}
 
 		public static void WriteError(string text, ConsoleColor color = ConsoleColor.Blue)
