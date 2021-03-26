@@ -24,11 +24,11 @@ namespace DiscordEmoteExtractor
 
 			Stopwatch sw = Stopwatch.StartNew();
 
-			Console.WriteLine("Reading text from file...");
+			Console.Write("Reading text from file...");
 
 			string content = File.ReadAllText(emoteTextPath);
 
-			Console.WriteLine($"Finished in {sw.ElapsedMilliseconds}ms.\n");
+			Console.Write($"Done. ({sw.ElapsedMilliseconds}ms)\n\n");
 
 			if (string.IsNullOrWhiteSpace(content))
 			{
@@ -37,12 +37,12 @@ namespace DiscordEmoteExtractor
 			}
 
 			sw.Restart();
-			Console.WriteLine("Matching with Regex...");
+			Console.Write("Matching with Regex...");
 
 			MatchCollection emoteNames = emoteNameRegex.Matches(content);
 			MatchCollection emoteUrls = emoteUrlRegex.Matches(content);
 
-			Console.WriteLine($"Finished in {sw.ElapsedMilliseconds}ms.\n");
+			Console.Write($"Done. ({sw.ElapsedMilliseconds}ms)\n\n");
 
 			if (emoteNames.Count == 0)
 			{
@@ -55,10 +55,10 @@ namespace DiscordEmoteExtractor
 				emoteList.Add(new(emoteNames[i].Value.Replace(":", string.Empty), emoteUrls[i].Value));
 
 			sw.Restart();
-			Console.WriteLine("Saving emotes...");
+			Console.Write("Saving emotes...");
 
 			await SaveAllEmotes(emoteList);
-			Console.WriteLine($"Finished in {sw.ElapsedMilliseconds}ms.");
+			Console.Write($"Done. ({sw.ElapsedMilliseconds}ms)\n");
 			sw.Stop();
 
 			client.Dispose();
