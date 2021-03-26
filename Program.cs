@@ -84,14 +84,14 @@ namespace DiscordEmoteExtractor
 			Console.ReadKey();
 		}
 
-		public static void WriteError(string text, ConsoleColor color = ConsoleColor.Blue)
+		private static void WriteError(string text, ConsoleColor color = ConsoleColor.Blue)
 		{
 			Console.ForegroundColor = color;
 			Console.WriteLine(text);
 			Console.ResetColor();
 		}
 
-		public static async Task SaveAllEmotes(List<Emote> emoteList)
+		private static async Task SaveAllEmotes(List<Emote> emoteList)
 		{
 			int quarter = emoteList.Count / 4;
 			foreach (Emote emote in emoteList)
@@ -102,7 +102,7 @@ namespace DiscordEmoteExtractor
 					Console.WriteLine($"{(float)counter / emoteList.Count * 100:F0}% done...");
 			}
 		}
-		public static async Task SaveEmoteAsync(Emote emote)
+		private static async Task SaveEmoteAsync(Emote emote)
 		{
 			string extension = emote.Url[^7..] switch
 			{
