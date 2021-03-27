@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
@@ -8,15 +9,12 @@ using System.Threading.Tasks;
 
 namespace DiscordEmoteExtractor
 {
-	public class Program
+	public static class Program
 	{
-		private const string emoteFileName = "Emote text.txt";
-		private static readonly string emoteTextPath = Path.Combine(AppContext.BaseDirectory, emoteFileName);
-		private static readonly string emoteFolderPath = Path.Combine(AppContext.BaseDirectory, "Emotes");
-		private static readonly HttpClient client = new();
-		private static int counter = 0;
-		private static readonly Regex emoteNameRegex = new("(?<=alt=\")[^\"]*", RegexOptions.Compiled);
-		private static readonly Regex emoteUrlRegex = new("(?<=src=\")[^\"]*", RegexOptions.Compiled);
+		private const string _emoteFileName = "Emote text.txt";
+		private const string _emotesFolderName = "Emotes";
+		private static readonly Regex _emoteNameRegex = new("(?<=alt=\")[^\"]*", RegexOptions.Compiled);
+		private static readonly Regex _emoteUrlRegex = new("(?<=src=\")[^\"]*", RegexOptions.Compiled);
 
 		public static async Task Main()
 		{
@@ -26,111 +24,95 @@ namespace DiscordEmoteExtractor
 			}
 			catch (Exception ex)
 			{
-				WriteError($"Failed to extract emotes.\nError: {ex.Message ?? ex.ToString()}", ConsoleColor.DarkRed);
-				WaitForKeyBeforeExit();
+				WriteLineColor($"Failed to extract emotes.\nError: {ex.Message}", ConsoleColor.Red);
 			}
+
+			Console.WriteLine("Press any key to exit the application...");
+			Console.ReadKey();
 		}
 
 		private static async Task RunExtractionProcedure()
 		{
-			if (!File.Exists(emoteTextPath))
+			if (!File.Exists(_emoteFileName))
 			{
-				WriteError($"No emote text file found.\nFile \"{emoteFileName}\" was created for you. Please paste the content in it and run the program again.");
-				File.Create(emoteTextPath);
-				WaitForKeyBeforeExit();
+				WriteLineColor($"No emote text file found.\nFile \"{_emoteFileName}\" will be created for you. Please paste the content in it and run the program again.");
+				File.Create(_emoteFileName);
+				return;
 			}
-
-			Stopwatch sw = Stopwatch.StartNew();
 
 			Console.Write("Reading text from file...");
 
-			string content = File.ReadAllText(emoteTextPath);
-
+			Stopwatch sw = Stopwatch.StartNew();
+			string content = File.ReadAllText(_emoteFileName);
 			Console.Write($"Done ({sw.ElapsedMilliseconds}ms)\n\n");
-
 			if (string.IsNullOrWhiteSpace(content))
 			{
-				WriteError($"File is empty. Please paste the content into the file \"{emoteFileName}\".");
-				WaitForKeyBeforeExit();
+				WriteLineColor($"File is empty. Please paste the content into the file \"{_emoteFileName}\".");
+				return;
 			}
 
-			sw.Restart();
-			Console.Write("Matching with Regex...");
+			Console.Write("Matching with regex...");
 
-			MatchCollection emoteNames = emoteNameRegex.Matches(content);
-			MatchCollection emoteUrls = emoteUrlRegex.Matches(content);
+			sw.Restart();
+			MatchCollection emoteNames = _emoteNameRegex.Matches(content);
+			MatchCollection emoteUrls = _emoteUrlRegex.Matches(content);
 
 			Console.Write($"Done ({sw.ElapsedMilliseconds}ms)\n\n");
-
-			if (emoteNames.Count == 0 || emoteUrls.Count == 0)
+			if (emoteNames.Count == 0 || emoteUrls.Count != emoteNames.Count)
 			{
-				WriteError("No emotes found.");
-				WaitForKeyBeforeExit();
+				WriteLineColor("No emotes found.");
+				return;
 			}
 
 			List<Emote> emoteList = new();
 			for (int i = 0; i < emoteNames.Count; i++)
-				emoteList.Add(new(emoteNames[i].Value.Replace(":", string.Empty), emoteUrls[i].Value));
+			{
+				string emoteName = emoteNames[i].Value;
+				emoteList.Add(new(emoteName.Replace(":", string.Empty), emoteUrls[i].Value));
+			}
+
+			if (Directory.Exists(_emotesFolderName))
+				Directory.Delete(_emotesFolderName, recursive: true);
+
+			Directory.CreateDirectory(_emotesFolderName);
+
+			Console.WriteLine("Downloading emotes...");
 
 			sw.Restart();
-			Console.WriteLine("Saving emotes...");
+			using HttpClient client = new();
+			int counter = 0;
+			int quarter = emoteList.Count / 4;
+			byte[][] images = await Task.WhenAll(emoteList.Select(e => client.GetByteArrayAsync(e.Url)));
+			for (int i = 0; i < emoteList.Count; i++)
+			{
+			    string extension = emoteList[i].Url[^7..] switch
+			    {
+			        "png?v=1" => ".png",
+			        "gif?v=1" => ".gif",
+			        _ => null,
+			    };
 
-			if (Directory.Exists(emoteFolderPath))
-				Directory.Delete(emoteFolderPath, recursive: true);
+			    if (extension is null)
+			        continue;
 
-			Directory.CreateDirectory(emoteFolderPath);
+			    string imagePath = Path.Combine(_emotesFolderName, emoteList[i].Name + extension);
+			    File.WriteAllBytes(imagePath, images[i]);
+			    counter++;
 
-			await SaveAllEmotes(emoteList);
-			WriteError($"Done ({sw.ElapsedMilliseconds}ms)", ConsoleColor.DarkGreen);
-			sw.Stop();
+			    if (counter % quarter == 0)
+			        Console.WriteLine($"{(float)counter / emoteList.Count * 100:F0}% done...");
+			}
 
-			client.Dispose();
-			WaitForKeyBeforeExit();
+			WriteLineColor($"Done ({sw.ElapsedMilliseconds}ms)", ConsoleColor.DarkGreen);
 		}
 
-		private static void WaitForKeyBeforeExit()
-		{
-			Console.WriteLine("\nPress any key to exit...");
-			Console.ReadKey();
-			Environment.Exit(0);
-		}
-
-		private static void WriteError(string text, ConsoleColor color = ConsoleColor.Blue)
+		private static void WriteLineColor(string text, ConsoleColor color = ConsoleColor.Blue)
 		{
 			Console.ForegroundColor = color;
 			Console.WriteLine(text);
 			Console.ResetColor();
 		}
 
-		private static async Task SaveAllEmotes(List<Emote> emoteList)
-		{
-			int quarter = emoteList.Count / 4;
-			foreach (Emote emote in emoteList)
-			{
-				await SaveEmoteAsync(emote);
-
-				if (counter % quarter == 0)
-					Console.WriteLine($"{(float)counter / emoteList.Count * 100:F0}% done...");
-			}
-		}
-		private static async Task SaveEmoteAsync(Emote emote)
-		{
-			string extension = emote.Url[^7..] switch
-			{
-				"png?v=1" => ".png",
-				"gif?v=1" => ".gif",
-				_ => null,
-			};
-
-			if (extension is null)
-				return;
-
-			byte[] image = await client.GetByteArrayAsync(emote.Url);
-			string imagePath = Path.Combine(emoteFolderPath, emote.Name + extension);
-			File.WriteAllBytes(imagePath, image);
-			counter++;
-		}
+		private record Emote(string Name, string Url);
 	}
-
-	public record Emote(string Name, string Url);
 }
