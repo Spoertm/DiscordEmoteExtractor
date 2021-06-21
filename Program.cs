@@ -1,8 +1,8 @@
 ﻿using System;
-using System.Linq;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
+using System.Linq;
 using System.Net.Http;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
@@ -85,22 +85,22 @@ namespace DiscordEmoteExtractor
 			byte[][] images = await Task.WhenAll(emoteList.Select(e => client.GetByteArrayAsync(e.Url)));
 			for (int i = 0; i < emoteList.Count; i++)
 			{
-			    string extension = emoteList[i].Url[^7..] switch
-			    {
-			        "png?v=1" => ".png",
-			        "gif?v=1" => ".gif",
-			        _ => null,
-			    };
+				string extension = emoteList[i].Url[^7..] switch
+				{
+					"png?v=1" => ".png",
+					"gif?v=1" => ".gif",
+					_ => null,
+				};
 
-			    if (extension is null)
-			        continue;
+				if (extension is null)
+					continue;
 
-			    string imagePath = Path.Combine(_emotesFolderName, emoteList[i].Name + extension);
-			    await File.WriteAllBytesAsync(imagePath, images[i]);
-			    counter++;
+				string imagePath = Path.Combine(_emotesFolderName, emoteList[i].Name + extension);
+				await File.WriteAllBytesAsync(imagePath, images[i]);
+				counter++;
 
-			    if (counter % quarter == 0)
-			        Console.WriteLine($"{(float)counter / emoteList.Count * 100:F0}% done...");
+				if (counter % quarter == 0)
+					Console.WriteLine($"{(float)counter / emoteList.Count * 100:F0}% done...");
 			}
 
 			WriteLineColor($"Done ({sw.ElapsedMilliseconds}ms)", ConsoleColor.DarkGreen);
