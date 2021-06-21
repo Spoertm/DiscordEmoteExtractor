@@ -43,7 +43,7 @@ namespace DiscordEmoteExtractor
 			Console.Write("Reading text from file...");
 
 			Stopwatch sw = Stopwatch.StartNew();
-			string content = File.ReadAllText(_emoteFileName);
+			string content = await File.ReadAllTextAsync(_emoteFileName);
 			Console.Write($"Done ({sw.ElapsedMilliseconds}ms)\n\n");
 			if (string.IsNullOrWhiteSpace(content))
 			{
@@ -96,7 +96,7 @@ namespace DiscordEmoteExtractor
 			        continue;
 
 			    string imagePath = Path.Combine(_emotesFolderName, emoteList[i].Name + extension);
-			    File.WriteAllBytes(imagePath, images[i]);
+			    await File.WriteAllBytesAsync(imagePath, images[i]);
 			    counter++;
 
 			    if (counter % quarter == 0)
