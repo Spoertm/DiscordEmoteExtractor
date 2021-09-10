@@ -24,7 +24,7 @@ namespace DiscordEmoteExtractor
 			}
 			catch (Exception ex)
 			{
-				WriteLineColor($"Failed to extract emotes.\nError: {ex.Message}", ConsoleColor.Red);
+				WriteLineColor($"Error occured: {ex.Message}", ConsoleColor.Red);
 			}
 
 			Console.WriteLine("Press any key to exit the application...");
@@ -46,10 +46,7 @@ namespace DiscordEmoteExtractor
 			string content = await File.ReadAllTextAsync(_emoteFileName);
 			Console.Write($"Done ({sw.ElapsedMilliseconds}ms)\n\n");
 			if (string.IsNullOrWhiteSpace(content))
-			{
-				WriteLineColor($"File is empty. Please paste the content into the file \"{_emoteFileName}\".");
-				return;
-			}
+				throw new($"File is empty. Please paste the content into the file \"{_emoteFileName}\".");
 
 			Console.Write("Matching with regex...");
 
@@ -59,10 +56,7 @@ namespace DiscordEmoteExtractor
 
 			Console.Write($"Done ({sw.ElapsedMilliseconds}ms)\n\n");
 			if (emoteNames.Count == 0 || emoteUrls.Count != emoteNames.Count)
-			{
-				WriteLineColor("No emotes found.");
-				return;
-			}
+				throw new("No emotes found.");
 
 			List<Emote> emoteList = new();
 			for (int i = 0; i < emoteNames.Count; i++)
