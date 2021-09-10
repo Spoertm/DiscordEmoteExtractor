@@ -89,7 +89,7 @@ namespace DiscordEmoteExtractor
 				{
 					"png?v=1" => ".png",
 					"gif?v=1" => ".gif",
-					_ => null,
+					_         => null,
 				};
 
 				if (extension is null)
