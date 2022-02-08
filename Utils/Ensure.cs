@@ -5,7 +5,7 @@ public static class Ensure
 	public static void FileExists(string filePath)
 	{
 		if (!File.Exists(filePath))
-			File.Create(filePath);
+			File.Create(filePath).Close();
 	}
 
 	public static void DirectoryExists(string directoryPath)
