@@ -36,7 +36,7 @@ public static class Program
 	{
 		if (!File.Exists(_emoteFileName))
 		{
-			WriteLineColor($"No emote text file found.\nFile \"{_emoteFileName}\" will be created for you. Please paste the content in it and run the program again.");
+			WriteLineColor($"No emote text file found.\nFile \"{_emoteFileName}\" will be created for you. Please paste the content in it and run the program again.", ConsoleColor.Red);
 			File.Create(_emoteFileName);
 			return;
 		}
