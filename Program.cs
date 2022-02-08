@@ -16,9 +16,12 @@ public static class Program
 
 	public static async Task Main()
 	{
-		Console.Title = Assembly.GetEntryAssembly()?.GetName().Name ?? "Program";
-		Console.SetWindowSize(80, 25);
-		Console.SetBufferSize(80, 100);
+		if (OperatingSystem.IsWindows())
+		{
+			Console.Title = Assembly.GetEntryAssembly()?.GetName().Name ?? "Program";
+			Console.SetWindowSize(80, 25);
+			Console.SetBufferSize(80, 100);
+		}
 
 		try
 		{
