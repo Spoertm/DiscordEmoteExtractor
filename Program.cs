@@ -107,15 +107,5 @@ public static class Program
 		Console.ResetColor();
 	}
 
-	private readonly struct Emote
-	{
-		public string Name { get; }
-		public string Url { get; }
-
-		public Emote(string name, string url)
-		{
-			Name = name;
-			Url = url;
-		}
-	}
+	private readonly record struct Emote(string Name, string Url);
 }
