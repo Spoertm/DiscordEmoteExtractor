@@ -15,6 +15,7 @@ public static class Program
 	private const string _emotesFolderName = "Emotes";
 	private static readonly Regex _emoteNameRegex = new("(?<=alt=\")[^\"]*", RegexOptions.Compiled);
 	private static readonly Regex _emoteUrlRegex = new("(?<=src=\")[^\"]*", RegexOptions.Compiled);
+	private static readonly Regex _emoteUrlReplaceSizeRegex = new("(?<=size=)\\d+", RegexOptions.Compiled);
 
 	public static async Task Main()
 	{
@@ -62,7 +63,7 @@ public static class Program
 		for (int i = 0; i < emoteNames.Count; i++)
 		{
 			string emoteName = emoteNames[i].Value;
-			emoteList.Add(new(emoteName.Replace(":", string.Empty), emoteUrls[i].Value));
+			emoteList.Add(new(emoteName.Replace(":", string.Empty), _emoteUrlReplaceSizeRegex.Replace(emoteUrls[i].Value, "1024")));
 		}
 
 		if (Directory.Exists(_emotesFolderName))
