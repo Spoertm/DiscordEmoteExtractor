@@ -79,12 +79,16 @@ public static class Program
 		byte[][] images = await Task.WhenAll(emoteList.Select(e => client.GetByteArrayAsync(e.Url)));
 		for (int i = 0; i < emoteList.Count; i++)
 		{
-			string? extension = emoteList[i].Url[^7..] switch
-			{
-				"png?v=1" => ".png",
-				"gif?v=1" => ".gif",
-				_         => null,
-			};
+			string? extension = null;
+
+			if (emoteList[i].Url.Contains("png"))
+				extension = ".png";
+			else if (emoteList[i].Url.Contains("gif"))
+				extension = ".gif";
+			else if (emoteList[i].Url.Contains("webp"))
+				extension = ".webp";
+			else if (emoteList[i].Url.Contains("jpg") || emoteList[i].Url.Contains("jpeg"))
+				extension = ".jpg";
 
 			if (extension is null)
 				continue;
