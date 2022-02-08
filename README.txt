@@ -21,7 +21,7 @@ Steps:
 
 2. Bring up the developer tools of your browser (shortcut: CTRL + SHIFT + I).
 
-3. Choose the element selector tool, which usually looks like a cursor pointing and is located in the upper left of the developer window.
+3. Choose the element selector tool, which usually looks like a cursor inside a square and is located in the upper left of the developer window.
 
 4. Carefully click the scrollbar in the emote picker to select it (it should light up as a very thin line).
 
