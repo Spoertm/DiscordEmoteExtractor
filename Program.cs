@@ -66,6 +66,10 @@ public static class Program
 			emoteList.Add(new(emoteName.Replace(":", string.Empty), _emoteUrlReplaceSizeRegex.Replace(emoteUrls[i].Value, "1024")));
 		}
 
+		emoteList = emoteList
+			.Where(emote => !emote.Url.Contains("icons") && Uri.TryCreate(emote.Url, UriKind.Absolute, out Uri uriResult) && uriResult.Scheme == Uri.UriSchemeHttps)
+			.ToList();
+
 		if (Directory.Exists(_emotesFolderName))
 			Directory.Delete(_emotesFolderName, recursive: true);
 
