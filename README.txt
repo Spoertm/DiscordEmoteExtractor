@@ -13,6 +13,7 @@ This is a tool that helps you mass-extract Discord emotes with ease, rather than
 
 Prerequisites: 
 - Since Discord recently seems to have patched the normal client so you can't hit CTRL + Shift + I to bring up the developer tools, you must use the browser version or the public test build (PTB) version.
+
 - Keep in mind the emote picker doesn't render all emotes at once. Instead it only renders the visible ones.
   Therefore if you want more than what's visible you have to use the tool multiple times.
 
