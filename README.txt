@@ -5,7 +5,7 @@
  |____/|_|___/\___\___/|_|  \__,_|_____|_| |_| |_|\___/ \__\___|_____/_/\_\\__|_|  \__,_|\___|\__\___/|_|   
                                                                                                                                                                                                                                                                                     
 
-This is a tool that helps you get mass-extract Discord emotes with ease, rather than having to painstakingly do it by hand for every emote.
+This is a tool that helps you mass-extract Discord emotes with ease, rather than having to painstakingly do it by hand for every emote.
 
 
 
