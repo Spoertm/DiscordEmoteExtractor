@@ -27,7 +27,7 @@ Steps:
 
 5. Right click the highlighted element in the developer window => Copy => Copy element.
 
-6. Paste what you just copied into the "Emote text.txt" file in the program folder.
+6. Paste what you just copied into the "Emote text.txt" file in the program folder and save it.
 
 7. Run the program.
 
