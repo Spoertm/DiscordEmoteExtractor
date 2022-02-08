@@ -12,14 +12,14 @@ This is a tool that helps you mass-extract Discord emotes with ease, rather than
 || Using the tool ||
 
 Prerequisites: 
-- Since Discord recently seems to have patched the client so you can't hit CTRL + Shift + I to bring up the developer tools, you must use the browser version.
+- Since Discord recently seems to have patched the normal client so you can't hit CTRL + Shift + I to bring up the developer tools, you must use the browser version or the public test build (PTB) version.
 - Keep in mind the emote picker doesn't render all emotes at once. Instead it only renders the visible ones.
   Therefore if you want more than what's visible you have to use the tool multiple times.
 
 Steps:
 1. Open the emote menu and scroll to the emotes you want to get.
 
-2. Bring up the developer tools of your browser (shortcut: CTRL + SHIFT + I).
+2. Bring up the developer tools of your client (shortcut: CTRL + SHIFT + I).
 
 3. Choose the element selector tool, which usually looks like a cursor inside a square and is located in the upper left of the developer window.
 
