@@ -1,9 +1,4 @@
-﻿using System;
-using System.IO;
-using System.Linq;
-using System.Threading.Tasks;
-
-namespace DiscordEmoteExtractor.Utils;
+﻿namespace DiscordEmoteExtractor.Utils;
 
 public static class Ensure
 {

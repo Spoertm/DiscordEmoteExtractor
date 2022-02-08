@@ -1,6 +1,4 @@
 ﻿using DiscordEmoteExtractor.Exceptions;
-using System.IO;
-using System.Threading.Tasks;
 
 namespace DiscordEmoteExtractor.Utils;
 

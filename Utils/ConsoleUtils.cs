@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace DiscordEmoteExtractor.Utils;
+﻿namespace DiscordEmoteExtractor.Utils;
 
 public static class ConsoleUtils
 {

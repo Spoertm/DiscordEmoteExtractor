@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace DiscordEmoteExtractor.Exceptions;
+﻿namespace DiscordEmoteExtractor.Exceptions;
 
 public class EmoteExtractorException : Exception
 {
