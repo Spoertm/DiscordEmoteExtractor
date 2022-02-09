@@ -49,7 +49,7 @@ public static class Program
 		string content = await Validate.ReadFileThrowIfEmpty(_emoteFileName, $"\nFile is empty. Please paste the content into the file \"{_emoteFileName}\".");
 
 		Console.Write($"Done ({sw.ElapsedMilliseconds}ms)\n");
-		Console.Write("\nParsing text...");
+		Console.Write("\nSearching for emotes...");
 
 		sw.Restart();
 
