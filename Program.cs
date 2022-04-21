@@ -46,7 +46,7 @@ public static class Program
 		Console.Write("Reading file...");
 		Stopwatch sw = Stopwatch.StartNew();
 
-		string content = await Validate.ReadFileThrowIfEmpty(_emoteFileName, $"\nFile is empty. Please paste the content into the file \"{_emoteFileName}\".");
+		string content = await Validate.ThrowIfEmptyFile(_emoteFileName, $"\nFile is empty. Please paste the content into the file \"{_emoteFileName}\".");
 
 		Console.Write($"Done ({sw.ElapsedMilliseconds}ms)\n");
 		Console.Write("\nSearching for emotes...");
