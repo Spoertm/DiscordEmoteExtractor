@@ -25,7 +25,7 @@ public static class Program
 
 		try
 		{
-			await RunExtractionProcedure();
+			await Run();
 		}
 		catch (Exception ex)
 		{
@@ -39,7 +39,7 @@ public static class Program
 		Console.ReadKey();
 	}
 
-	private static async Task RunExtractionProcedure()
+	private static async Task Run()
 	{
 		Ensure.FileExists(_emoteFileName);
 
