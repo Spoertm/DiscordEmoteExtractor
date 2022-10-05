@@ -82,8 +82,9 @@ public static class Program
 		sw.Restart();
 
 		using HttpClient client = new();
-		// ReSharper disable once AccessToDisposedClosure
-		byte[][] images = await Task.WhenAll(emoteList.Select(e => client.GetByteArrayAsync(e.Url)));
+		List<Task<byte[]>> getByteArrayTasks = new(emoteList.Count);
+		getByteArrayTasks.AddRange(emoteList.Select(emote => client.GetByteArrayAsync(emote.Url)));
+		byte[][] images = await Task.WhenAll(getByteArrayTasks);
 
 		int counter = 0;
 		int quarter = emoteList.Count / 4;
