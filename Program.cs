@@ -90,19 +90,13 @@ public static class Program
 		int quarter = emoteList.Count / 4;
 		for (int i = 0; i < emoteList.Count; i++)
 		{
-			string? extension;
-			if (emoteList[i].Url.Contains("png"))
-				extension = ".png";
-			else if (emoteList[i].Url.Contains("gif"))
-				extension = ".gif";
-			else if (emoteList[i].Url.Contains("webp"))
-				extension = ".webp";
-			else if (emoteList[i].Url.Contains("jpg") || emoteList[i].Url.Contains("jpeg"))
-				extension = ".jpg";
-			else
+			string extension = emoteList[i].Url.Split('?')[0].Split('.')[^1];
+			if (extension is not ("png" or "gif" or "webp" or "jpg" or "jpeg"))
 				continue;
 
-			string imagePath = Path.Combine(_emotesFolderName, emoteList[i].Name + extension);
+			extension = extension == "jpeg" ? "jpg" : extension;
+
+			string imagePath = Path.Combine(_emotesFolderName, $"{emoteList[i].Name}.{extension}");
 			await Ensure.ByteArrayIsWrittenAsync(imagePath, images[i]);
 			counter++;
 
