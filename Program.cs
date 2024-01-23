@@ -63,7 +63,7 @@ public static class Program
 
 		Console.Write($"Found {emoteNames.Count} emotes\n");
 
-		List<Emote> emoteList = new();
+		List<Emote> emoteList = [];
 		for (int i = 0; i < emoteNames.Count; i++)
 		{
 			if (emoteUrls[i].Value.Contains("icons") || !Uri.TryCreate(emoteUrls[i].Value, UriKind.Absolute, out Uri? uriResult) || uriResult.Scheme != Uri.UriSchemeHttps)
