@@ -3,12 +3,13 @@
   <PropertyGroup>
     <Version>1.0</Version>
     <OutputType>Exe</OutputType>
-    <TargetFramework>net6.0</TargetFramework>
+    <TargetFramework>net8.0</TargetFramework>
     <ApplicationIcon>crezy.ico</ApplicationIcon>
     <PublishTrimmed>true</PublishTrimmed>
-    <LangVersion>10</LangVersion>
+    <LangVersion>12</LangVersion>
     <Nullable>enable</Nullable>
     <ImplicitUsings>true</ImplicitUsings>
+    <PublishAot>true</PublishAot>
   </PropertyGroup>
 
   <ItemGroup>
