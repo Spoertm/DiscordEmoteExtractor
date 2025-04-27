@@ -48,7 +48,7 @@ public static class Program
 		Console.Write("Reading file...");
 		Stopwatch sw = Stopwatch.StartNew();
 
-		string content = await Validate.ThrowIfEmptyFile(_emoteFileName, $"\nFile is empty. Please paste the content into the file \"{_emoteFileName}\".");
+		string content = await Validate.ReadNonEmptyFileAsync(_emoteFileName, $"\nFile is empty. Please paste the content into the file \"{_emoteFileName}\".");
 
 		Console.Write($"Done ({sw.ElapsedMilliseconds}ms)\n");
 		Console.Write("\nSearching for emotes...");
@@ -65,7 +65,7 @@ public static class Program
 
 		Console.Write($"Found {emoteNames.Count} emotes\n");
 
-		List<Emote> emoteList = [];
+		List<Emote> emoteList = new(Math.Max(emoteNames.Count, emoteUrls.Count));
 		for (int i = 0; i < emoteNames.Count; i++)
 		{
 			if (emoteUrls[i].Value.Contains("icons") || !Uri.TryCreate(emoteUrls[i].Value, UriKind.Absolute, out Uri? uriResult) || uriResult.Scheme != Uri.UriSchemeHttps)
