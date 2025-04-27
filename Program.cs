@@ -34,9 +34,11 @@ public static class Program
 			else
 				ConsoleUtils.WriteLineColor($"\nError occured: {ex.Message}", ConsoleColor.Red);
 		}
-
-		Console.WriteLine("\nPress any key to exit the application...");
-		Console.ReadKey();
+		finally
+		{
+			Console.WriteLine("\nPress any key to exit...");
+			Console.ReadKey();
+		}
 	}
 
 	private static async Task Run()
